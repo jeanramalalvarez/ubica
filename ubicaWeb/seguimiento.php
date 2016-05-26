@@ -7,24 +7,6 @@ include "NotORM/NotORM.php";
 
 $app = new \Slim\Slim();
 
-//PARA HABILITAR EL DEBUGIN EN SLIM
-//http://docs.slimframework.com/errors/debug/
-//http://docs.slimframework.com/configuration/settings/
-/*
-$app = new \Slim\Slim(array(
-		'debug' => true,
-		'mode' => 'development'
-));
-*/
-//$app->config('debug', true);
-
-//AGREGAR ESTAS LINEAS EN EL ARCHIVO PHP.INI PARA HABILITAR EL DEBUG.
-/*
-zend_extension = "C:\xampp\php\ext\php_xdebug.dll"
-xdebug.remote_enable = true
-*/
-
-
 //$pdo = new PDO("mysql:host=localhost;port=3306;dbname=1020089", "1020089","P4ssw0rd1zz");
 //$pdo = new PDO("mysql:host=localhost;port=3306;dbname=ubica", "root","admin");
 $pdo = new PDO("mysql:host=localhost;port=3306;dbname=ubica", "root","");
