@@ -73,7 +73,7 @@ public class ServiceLocation extends Service implements LocationListener {
                 this.canGetLocation = true;
                 if (isNetworkEnabled) {
                  //updates will be send according to these arguments
-                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, Constants.MIN_TIME_BW_UPDATES, Constants.MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, Constants.TIEMPO_MIN, Constants.DISTANCIA_MIN, this);
                     Log.d("ServiceLocation", "Network");
                     if (locationManager != null) {
                         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -86,7 +86,7 @@ public class ServiceLocation extends Service implements LocationListener {
                 // if GPS Enabled get lat/long using GPS Services
                 if (isGPSEnabled) {
                     if (location == null) {
-                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, Constants.MIN_TIME_BW_UPDATES, Constants.MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, Constants.TIEMPO_MIN, Constants.DISTANCIA_MIN, this);
                         Log.d("ServiceLocation", "GPS Enabled");
                         if (locationManager != null) {
                             location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);

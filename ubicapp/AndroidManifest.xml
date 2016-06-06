@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         
-        <service android:name="com.ubicapp.service.ServiceLocation" />
+        <service android:name="com.ubicapp.service.LocationService" />
 
         <!-- <activity -->
         <!-- android:name="org.jcs.triptracker.MainActivity" -->

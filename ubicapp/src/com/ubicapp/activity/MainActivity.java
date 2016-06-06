@@ -1,10 +1,7 @@
 package com.ubicapp.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.BatteryManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,8 +9,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.ubicapp.R;
-import com.ubicapp.service.ServiceLocation;
-import com.ubicapp.util.utiles.Util;
+import com.ubicapp.service.LocationService;
 
 /***
  * 
@@ -42,19 +38,22 @@ public class MainActivity extends Activity {
 		lblLatitud.setText("Cargando...");
 		lblLongitud.setText("Cargando...");
 		
-		Util.getIMEI(this);
+		//Util.getIMEI(this);
 		
-		Util.getBatteryLevel(this);
+		//Util.getBatteryLevel(this);
 		
 		//iniciar();
 		
+		/*
 		ServiceLocation serviceLocation = new ServiceLocation(this);
 		serviceLocation.setLblLatitud(lblLatitud);
 		serviceLocation.setLblLongitud(lblLongitud);
 		serviceLocation.setLblTexto(lblTexto);
 		serviceLocation.getLocation();
+		*/
 		//serviceLocation.getUbicacion();
-		
+		Intent intent = new Intent(this, LocationService.class);
+		this.startService(intent);
 	}
 
 	@Override
