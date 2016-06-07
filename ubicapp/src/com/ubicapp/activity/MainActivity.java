@@ -1,5 +1,8 @@
 package com.ubicapp.activity;
 
+import com.example.ubicapp.R;
+import com.ubicapp.service.LocationService;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,9 +10,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-
-import com.example.ubicapp.R;
-import com.ubicapp.service.LocationService;
 
 /***
  * 
