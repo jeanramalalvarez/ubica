@@ -1,6 +1,6 @@
 package com.ubicapp.activity;
 
-import com.example.ubicapp.R;
+import com.ubicapp.R;
 import com.ubicapp.service.LocationService;
 
 import android.app.Activity;
@@ -38,12 +38,6 @@ public class MainActivity extends Activity {
 		lblLatitud.setText("Cargando...");
 		lblLongitud.setText("Cargando...");
 		
-		//Util.getIMEI(this);
-		
-		//Util.getBatteryLevel(this);
-		
-		//iniciar();
-		
 		/*
 		ServiceLocation serviceLocation = new ServiceLocation(this);
 		serviceLocation.setLblLatitud(lblLatitud);
@@ -51,23 +45,18 @@ public class MainActivity extends Activity {
 		serviceLocation.setLblTexto(lblTexto);
 		serviceLocation.getLocation();
 		*/
-		//serviceLocation.getUbicacion();
 		Intent intent = new Intent(this, LocationService.class);
 		this.startService(intent);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			return true;
