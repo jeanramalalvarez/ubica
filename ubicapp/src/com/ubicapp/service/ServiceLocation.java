@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.ubicapp.util.Constants;
-import com.ubicapp.util.utiles.Util;
+import com.ubicapp.util.Constantes;
+import com.ubicapp.util.Util;
 
 import android.app.Service;
 import android.content.Context;
@@ -73,7 +73,7 @@ public class ServiceLocation extends Service implements LocationListener {
                 this.canGetLocation = true;
                 if (isNetworkEnabled) {
                  //updates will be send according to these arguments
-                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, Constants.TIEMPO_MIN, Constants.DISTANCIA_MIN, this);
+                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, Constantes.TIEMPO_MIN, Constantes.DISTANCIA_MIN, this);
                     Log.d("ServiceLocation", "Network");
                     if (locationManager != null) {
                         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -86,7 +86,7 @@ public class ServiceLocation extends Service implements LocationListener {
                 // if GPS Enabled get lat/long using GPS Services
                 if (isGPSEnabled) {
                     if (location == null) {
-                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, Constants.TIEMPO_MIN, Constants.DISTANCIA_MIN, this);
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, Constantes.TIEMPO_MIN, Constantes.DISTANCIA_MIN, this);
                         Log.d("ServiceLocation", "GPS Enabled");
                         if (locationManager != null) {
                             location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -159,7 +159,7 @@ public class ServiceLocation extends Service implements LocationListener {
 				parameter.put("deDire", "direccion");
 				parameter.put("feMovl", date);
 				
-				Util.sendPost2(Constants.URL_SERV_SEGUI, parameter);
+				Util.sendPost2(Constantes.URL_SERV_SEGUI, parameter);
 				
 				
 			/*}else{
@@ -206,7 +206,7 @@ public class ServiceLocation extends Service implements LocationListener {
 				parameter.put("deDire", "direccion");
 				parameter.put("feMovl", date);
 				
-				Util.sendPost2(Constants.URL_SERV_SEGUI, parameter);
+				Util.sendPost2(Constantes.URL_SERV_SEGUI, parameter);
 				
 				
 			}else{
@@ -231,7 +231,7 @@ public class ServiceLocation extends Service implements LocationListener {
 	    // Compruebe si la solución de la nueva ubicación es más nueva o más antigua
 	    long timeDelta = location.getTime() - currentBestLocation.getTime();
 	    
-	    if(timeDelta >= Constants.MINUTES){
+	    if(timeDelta >= Constantes.MINUTES){
 	    	return true;
 	    }
 	    
@@ -256,8 +256,8 @@ public class ServiceLocation extends Service implements LocationListener {
 	    long timeDelta = location.getTime() - currentBestLocation.getTime();
 	    Date newDate = new Date(location.getTime());
 	    Date currentDate = new Date(currentBestLocation.getTime());
-	    boolean isSignificantlyNewer = timeDelta > Constants.TWO_MINUTES;
-	    boolean isSignificantlyOlder = timeDelta < -Constants.TWO_MINUTES;
+	    boolean isSignificantlyNewer = timeDelta > Constantes.TWO_MINUTES;
+	    boolean isSignificantlyOlder = timeDelta < -Constantes.TWO_MINUTES;
 	    boolean isNewer = timeDelta > 0;
 
 	    // If it's been more than two minutes since the current location, use the new location

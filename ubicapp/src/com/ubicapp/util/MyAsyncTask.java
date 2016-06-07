@@ -1,4 +1,4 @@
-package com.ubicapp.util.utiles;
+package com.ubicapp.util;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

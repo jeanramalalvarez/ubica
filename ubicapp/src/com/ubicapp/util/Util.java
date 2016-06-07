@@ -1,4 +1,4 @@
-package com.ubicapp.util.utiles;
+package com.ubicapp.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,7 +27,6 @@ import android.os.AsyncTask;
 import android.os.BatteryManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import com.ubicapp.util.Constants;
 
 @SuppressLint("SimpleDateFormat")
 @SuppressWarnings("unchecked")
@@ -47,7 +46,7 @@ public class Util {
 		SimpleDateFormat sdf;
 		
 		if(formato == null){
-			sdf = new SimpleDateFormat(Constants.FORMATO_FECHA);
+			sdf = new SimpleDateFormat(Constantes.FORMATO_FECHA);
 		}else{
 			sdf = new SimpleDateFormat(formato);
 		}
@@ -225,8 +224,8 @@ public class Util {
 	    long timeDelta = location.getTime() - currentBestLocation.getTime();
 	    //Date newDate = new Date(location.getTime());
 	    //Date currentDate = new Date(currentBestLocation.getTime());
-	    boolean isSignificantlyNewer = timeDelta > Constants.TWO_MINUTES;
-	    boolean isSignificantlyOlder = timeDelta < -Constants.TWO_MINUTES;
+	    boolean isSignificantlyNewer = timeDelta > Constantes.TWO_MINUTES;
+	    boolean isSignificantlyOlder = timeDelta < -Constantes.TWO_MINUTES;
 	    boolean isNewer = timeDelta > 0;
 
 	    // If it's been more than two minutes since the current location, use the new location
@@ -277,7 +276,7 @@ public class Util {
 	    // Compruebe si la solución de la nueva ubicación es más nueva o más antigua
 	    long timeDelta = location.getTime() - currentBestLocation.getTime();
 	    
-	    if(timeDelta >= Constants.MINUTES){
+	    if(timeDelta >= Constantes.MINUTES){
 	    	return true;
 	    }
 	    

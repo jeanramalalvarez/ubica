@@ -13,8 +13,8 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
 
-import com.ubicapp.util.Constants;
-import com.ubicapp.util.utiles.Util;
+import com.ubicapp.util.Constantes;
+import com.ubicapp.util.Util;
 
 public class LocationService extends Service implements LocationListener {
 	
@@ -70,7 +70,7 @@ public class LocationService extends Service implements LocationListener {
 	
 	public void procesarLocation(){
 		Log.d(TAG, "procesarLocation");
-		location = Util.getLocation(this, Constants.DISTANCIA_MIN, Constants.TIEMPO_MIN, this);
+		location = Util.getLocation(this, Constantes.DISTANCIA_MIN, Constantes.TIEMPO_MIN, this);
 		actualizarNuevaUbicacion(location, currentLocation);
 	}
 	
@@ -110,7 +110,7 @@ public class LocationService extends Service implements LocationListener {
 		parameter.put("deDire", "default");
 		parameter.put("feMovl", Util.getTime(null));
 		parameter.put("latlng", "");
-		Util.sendPost2(Constants.URL_SERV_SEGUI, parameter);
+		Util.sendPost2(Constantes.URL_SERV_SEGUI, parameter);
 	}
 	
 	public void ejecutarTareaProgramada(){
@@ -125,9 +125,9 @@ public class LocationService extends Service implements LocationListener {
 	    	@Override
 	    	public void run() {
 	    		 procesarLocation();
-	    		 handler.postDelayed(this, Constants.PERIODO_ENVIO_MS);
+	    		 handler.postDelayed(this, Constantes.PERIODO_ENVIO_MS);
 	    	}
-	    }, Constants.PERIODO_ENVIO_MS);
+	    }, Constantes.PERIODO_ENVIO_MS);
 	    
 	}
 	

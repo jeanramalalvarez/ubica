@@ -1,6 +1,6 @@
 package com.ubicapp.util;
 
-public interface Constants {
+public interface Constantes {
 	
 	String TRACK_URL = "";
 	
