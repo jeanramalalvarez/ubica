@@ -24,8 +24,6 @@ public class LocationService extends Service implements LocationListener {
 	
 	private Location currentLocation;
 	
-	//private Timer timer;
-	
 	private Handler handler;
 	
 	@Override
@@ -43,7 +41,6 @@ public class LocationService extends Service implements LocationListener {
 	@Override
 	public void onDestroy() {
 		Log.d(TAG, "Servicio destruido...");
-		//timer.cancel();
 		super.onDestroy();
 	}
 
@@ -119,11 +116,8 @@ public class LocationService extends Service implements LocationListener {
 	
 	public void ejecutarTareaProgramada(){
 		Log.d(TAG, "ejecutarTareaProgramada");
-
-		//timer = new Timer();
-	    //timer.schedule(new RemindTask(), 0, Constants.PERIODO_ENVIO_MI);
 		
-        //handler = new Handler(Looper.getMainLooper()); 
+        //handler = new Handler(); 
         handler = new Handler(Looper.getMainLooper());
 	    handler.postDelayed(new Runnable() {
 	    	@Override
@@ -137,13 +131,5 @@ public class LocationService extends Service implements LocationListener {
 	    }, Constantes.PERIODO_ENVIO_MS);
 	    
 	}
-	
-	/*class RemindTask extends TimerTask {
-
-        @SuppressLint("NewApi")
-		public void run() {
-        	procesarLocation();
-        }
-    }*/
 
 }
