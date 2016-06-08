@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.ubicapp.R;
 import com.ubicapp.service.LocationService;
 
 /***
