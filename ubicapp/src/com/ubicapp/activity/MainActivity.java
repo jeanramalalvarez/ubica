@@ -1,12 +1,11 @@
 package com.ubicapp.activity;
 
+import com.ubicapp.service.LocationService;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
-
-import com.ubicapp.service.LocationService;
 
 /***
  * 
@@ -15,11 +14,13 @@ import com.ubicapp.service.LocationService;
 
 public class MainActivity extends Activity {
 	
+	/*
 	private TextView lblLatitud;
 	
 	private TextView lblLongitud;
 	
 	private TextView lblTexto;
+	*/
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
