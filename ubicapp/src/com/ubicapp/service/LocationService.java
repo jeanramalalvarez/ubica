@@ -18,7 +18,7 @@ import com.ubicapp.util.Util;
 
 public class LocationService extends Service implements LocationListener {
 	
-	private static final String TAG = LocationService.class.getName();
+	private static final String TAG = LocationService.class.getSimpleName();
 	
 	private Location location;
 	
@@ -71,11 +71,11 @@ public class LocationService extends Service implements LocationListener {
 	public void procesarLocation(){
 		Log.d(TAG, "procesarLocation");
 		location = Util.getLocation(this, Constantes.DISTANCIA_MIN, Constantes.TIEMPO_MIN, this);
-		actualizarNuevaUbicacion(location, currentLocation);
+		actualizarLocation(location, currentLocation);
 	}
 	
-	public void actualizarNuevaUbicacion(Location location, Location currentLocation){
-		Log.d(TAG, "actualizarNuevaUbicacion");
+	public void actualizarLocation(Location location, Location currentLocation){
+		Log.d(TAG, "actualizarLocation");
 
 		if(location != null){
 			if(Util.validarMejorUbicacion(location, currentLocation)){
@@ -87,20 +87,24 @@ public class LocationService extends Service implements LocationListener {
 	
 					currentLocation = location;
 	
-					this.enviarInformacion(location);
+					this.enviarLocation(location);
 					
 				}else{
-					this.enviarInformacion(currentLocation);
+					//this.enviarInformacion(currentLocation);
+					Log.d(TAG, "validarTiempoUbicacion: false");
 				}
 				
 			}else{
-				this.enviarInformacion(currentLocation);
+				//this.enviarInformacion(currentLocation);
+				Log.d(TAG, "validarTiempoUbicacion: false");
 			}
+		}else{
+			Log.d(TAG, "location: " + location);
 		}
 	}
 	
-	public void enviarInformacion(Location location){
-		Log.d(TAG, "enviarInformacion");
+	public void enviarLocation(Location location){
+		Log.d(TAG, "enviarLocation");
 		
 		Map<String,String> parameter = new HashMap<String, String>();
 		parameter.put("deImei", "" + Util.getBatteryLevel(this));
@@ -115,7 +119,7 @@ public class LocationService extends Service implements LocationListener {
 	
 	public void ejecutarTareaProgramada(){
 		Log.d(TAG, "ejecutarTareaProgramada");
-		
+
 		//timer = new Timer();
 	    //timer.schedule(new RemindTask(), 0, Constants.PERIODO_ENVIO_MI);
 		
@@ -124,8 +128,11 @@ public class LocationService extends Service implements LocationListener {
 	    handler.postDelayed(new Runnable() {
 	    	@Override
 	    	public void run() {
-	    		 procesarLocation();
-	    		 handler.postDelayed(this, Constantes.PERIODO_ENVIO_MS);
+	    		Log.d(TAG, "INICIO DEL PROCESO");
+	    		long tiempoInicial = System.currentTimeMillis();
+	    		procesarLocation();
+	    		Log.d(TAG, "FIN DEL PROCESO tiempo transcurrido [" + (System.currentTimeMillis() - tiempoInicial) + " ms.]");
+	    		handler.postDelayed(this, Constantes.PERIODO_ENVIO_MS);
 	    	}
 	    }, Constantes.PERIODO_ENVIO_MS);
 	    

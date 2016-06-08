@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Context;
@@ -32,7 +33,7 @@ import android.util.Log;
 @SuppressWarnings("unchecked")
 public class Util {
 	
-	private static final String TAG = "Util";
+	private static final String TAG = Util.class.getSimpleName();
 	
 	public static Date getTime(){
 		Log.d(TAG, "getTime");

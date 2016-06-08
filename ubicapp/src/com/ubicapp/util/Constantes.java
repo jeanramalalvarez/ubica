@@ -2,8 +2,6 @@ package com.ubicapp.util;
 
 public interface Constantes {
 	
-	String TRACK_URL = "";
-	
 	String URL_SERV_BASE = "http://192.168.0.23:8082/ubicaWeb";
 	//String URL_SERV_BASE = "http://ubica.6te.net/ubica";
 	
@@ -13,7 +11,7 @@ public interface Constantes {
 	
 	int MINUTES = 1000 * 60 * 60;
 	
-	long PERIODO_ENVIO_MI = 1000 * 2;
+	//long PERIODO_ENVIO_MI = 1000 * 2;
 	
 	long PERIODO_ENVIO_MS = 1000 * 5;
 
