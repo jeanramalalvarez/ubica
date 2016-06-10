@@ -11,10 +11,14 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import com.ubicapp.service.LocationService;
 
 import android.annotation.SuppressLint;
 import android.app.Service;
@@ -297,6 +301,37 @@ public class Util {
 	      return provider2 == null;
 	    }
 	    return provider1.equals(provider2);
+	}
+	
+	public static void ejecutarAsincrono(Context context, String tipo, Object object){
+		Log.d(TAG, "ejecutarAsincrono");
+		
+		class SendPostReqAsyncTask extends AsyncTask<List<Object>, Void, String> {
+			
+			@Override
+			protected String doInBackground(List<Object>... params) {
+				Context context = (Context)params[0].get(0);
+				String tipo = (String)params[0].get(1);
+				
+				if(tipo.equals("START_SERVICE")){
+					context.startService(new Intent(context, ((LocationService)params[0].get(2)).getClass()));
+				}
+				
+				return "ok";
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				super.onPostExecute(result);
+			}
+			
+		}
+		SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
+		List<Object> lista = new ArrayList<Object>();
+		lista.add(context);
+		lista.add(tipo);
+		lista.add(object);
+		sendPostReqAsyncTask.execute(lista);
 	}
 
 }

@@ -21,7 +21,7 @@ public interface Constantes {
 	
 	//long PERIODO_ENVIO_MI = 1000 * 2;
 	
-	long PERIODO_ENVIO_MS = 1000 * 60 * 30;
+	long PERIODO_ENVIO_MS = 1000 * 1 * 5;
 
     long DISTANCIA_MIN = 0; // 0 metros
 
