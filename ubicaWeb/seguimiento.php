@@ -7,9 +7,9 @@ include "NotORM/NotORM.php";
 
 $app = new \Slim\Slim();
 
-//$pdo = new PDO("mysql:host=localhost;port=3306;dbname=1020089", "1020089","P4ssw0rd1zz");
-//$pdo = new PDO("mysql:host=localhost;port=3306;dbname=ubica", "root","admin");
-$pdo = new PDO("mysql:host=localhost;port=3306;dbname=ubica", "root","");
+$pdo = new PDO("mysql:host=localhost;port=3306;dbname=1162218", "1162218","P4ssw0rd1zz");
+//$pdo = new PDO("mysql:host=localhost;port=3306;dbname=ubica", "root","admin");//local_casa
+//$pdo = new PDO("mysql:host=localhost;port=3306;dbname=ubica", "root","");//loca_trabajo
 $db = new NotORM($pdo);
 
 date_default_timezone_set('America/Lima');
