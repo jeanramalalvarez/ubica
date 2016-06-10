@@ -29,6 +29,12 @@ import android.os.BatteryManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+/***
+ * 
+ * @author Jean Ramal Alvarez
+ * @since 09/06/2016
+ */
+
 @SuppressLint("SimpleDateFormat")
 @SuppressWarnings("unchecked")
 public class Util {
@@ -129,15 +135,15 @@ public class Util {
 			Log.d(TAG, "Resultado POST: " + result);
 
 		} catch (UnsupportedEncodingException e) {
-			Log.e(TAG, e.getMessage());
+			Log.e(TAG, "" + e.getMessage());
 		} catch (MalformedURLException e) {
-			Log.e(TAG, e.getMessage());
+			Log.e(TAG, "" + e.getMessage());
 		} catch (ProtocolException e) {
-			Log.e(TAG, e.getMessage());
+			Log.e(TAG, "" + e.getMessage());
 		} catch (IOException e) {
-			Log.e(TAG, e.getMessage());
+			Log.e(TAG, "" + e.getMessage());
 		} catch (Exception e) {
-			Log.e(TAG, e.getMessage());
+			Log.e(TAG, "" + e.getMessage());
 		}
 
 		return result;
@@ -225,8 +231,8 @@ public class Util {
 	    long timeDelta = location.getTime() - currentBestLocation.getTime();
 	    //Date newDate = new Date(location.getTime());
 	    //Date currentDate = new Date(currentBestLocation.getTime());
-	    boolean isSignificantlyNewer = timeDelta > Constantes.TWO_MINUTES;
-	    boolean isSignificantlyOlder = timeDelta < -Constantes.TWO_MINUTES;
+	    boolean isSignificantlyNewer = timeDelta > Constantes.MINU_VALI_MEJOR_UBI;
+	    boolean isSignificantlyOlder = timeDelta < -Constantes.MINU_VALI_MEJOR_UBI;
 	    boolean isNewer = timeDelta > 0;
 
 	    // If it's been more than two minutes since the current location, use the new location
@@ -274,10 +280,10 @@ public class Util {
 	    }
 
 	    // Check whether the new location fix is newer or older
-	    // Compruebe si la solución de la nueva ubicación es más nueva o más antigua
+	    // Comprobar si la nueva ubicación es más nueva o más antigua
 	    long timeDelta = location.getTime() - currentBestLocation.getTime();
 	    
-	    if(timeDelta >= Constantes.MINUTES){
+	    if(timeDelta >= Constantes.MINU_VALI_TIEMPO_UBI){
 	    	return true;
 	    }
 	    

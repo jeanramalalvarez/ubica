@@ -1,15 +1,16 @@
 package com.ubicapp.activity;
 
-import com.ubicapp.service.LocationService;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.ubicapp.service.LocationService;
+
 /***
  * 
- * @author https://developer.android.com/guide/topics/location/strategies.html
+ * @author Jean Ramal Alvarez
+ * @since 09/06/2016
  */
 
 public class MainActivity extends Activity {
@@ -43,8 +44,10 @@ public class MainActivity extends Activity {
 		serviceLocation.setLblTexto(lblTexto);
 		serviceLocation.getLocation();
 		*/
+		
 		Intent intent = new Intent(this, LocationService.class);
 		this.startService(intent);
+		
 	}
 	
 }

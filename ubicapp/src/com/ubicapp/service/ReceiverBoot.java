@@ -3,6 +3,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+/***
+ * 
+ * @author Jean Ramal Alvarez
+ * @since 09/06/2016
+ */
+
 public class ReceiverBoot extends BroadcastReceiver {
 
 	@Override

@@ -16,6 +16,11 @@ import android.util.Log;
 import com.ubicapp.util.Constantes;
 import com.ubicapp.util.Util;
 
+/***
+ * 
+ * @author Jean Ramal Alvarez
+ * @since 09/06/2016
+ */
 public class LocationService extends Service implements LocationListener {
 	
 	private static final String TAG = LocationService.class.getSimpleName();
