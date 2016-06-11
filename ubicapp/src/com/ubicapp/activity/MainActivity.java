@@ -1,11 +1,11 @@
 package com.ubicapp.activity;
 
-import com.ubicapp.service.LocationService;
-
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+
+import com.ubicapp.service.LocationService;
+import com.ubicapp.util.Util;
 
 /***
  * 
@@ -45,8 +45,8 @@ public class MainActivity extends Activity {
 		serviceLocation.getLocation();
 		*/
 		
-		startService(new Intent(this, LocationService.class));
-		
+		Util.startService(this, LocationService.class);
+		finish();
 	}
 	
 }

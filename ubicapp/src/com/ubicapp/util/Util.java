@@ -333,5 +333,13 @@ public class Util {
 		lista.add(object);
 		sendPostReqAsyncTask.execute(lista);
 	}
+	
+	public static void startService(Context context, Class<?> service){
+		context.startService(new Intent(context, service));
+		/*Intent intent = new Intent();
+		intent.setAction("com.service.LocationService");
+		context.startService(intent);
+		*/
+	}
 
 }

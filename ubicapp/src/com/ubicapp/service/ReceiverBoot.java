@@ -1,4 +1,6 @@
 package com.ubicapp.service;
+import com.ubicapp.util.Util;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,14 +15,12 @@ public class ReceiverBoot extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		//this.lanzarServices(context);
+		this.lanzarServices(context);
 		this.lanzarActivitys(context);
 	}
 	
 	public void lanzarServices(Context context){
-		Intent intent = new Intent();
-		intent.setAction("com.service.LocationService");
-		context.startService(intent);
+		Util.startService(context, LocationService.class);
 	}
 	
 	public void lanzarActivitys(Context context){
@@ -29,6 +29,5 @@ public class ReceiverBoot extends BroadcastReceiver {
 		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(i);
 		*/
-		context.startService(new Intent(context, LocationService.class));
 	}
 }

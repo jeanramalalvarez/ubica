@@ -36,9 +36,9 @@
         
         <service android:name=".service.LocationService"
             	 android:exported="false" >
-            <intent-filter>
+            <!-- <intent-filter>
                 <action android:name="com.service.LocationService" />
-            </intent-filter>
+            </intent-filter> -->
         </service>
         
         <receiver android:name=".service.ReceiverBoot" >
