@@ -44,7 +44,7 @@ $app->get('/seguimientos', function () use ($app, $db) {
 		echo json_encode(array("status" => true, "seguimientos" => $seguimientos));
 	
 	} catch (Exception $e) {
-		echo json_encode(array("status" => false, "message" => $e->getMessage()));
+		echo json_encode(array("status" => false, "message" => "Exception ".$e->getMessage()));
 	}
 
 });
@@ -77,7 +77,7 @@ $app->get('/seguimientos/:imei', function ($imei) use ($app, $db) {
 		echo json_encode(array("status" => true, "seguimientos" => $seguimientos));
 		
 	} catch (Exception $e) {
-		echo json_encode(array("status" => false, "message" => $e->getMessage()));
+		echo json_encode(array("status" => false, "message" => "Exception ".$e->getMessage()));
 	}
 
 });
@@ -112,7 +112,7 @@ $app->get('/seguimiento/:id', function ($id) use ($app, $db) {
 		}
 		
 	} catch (Exception $e) {
-		echo json_encode(array("status" => false, "message" => $e->getMessage()));
+		echo json_encode(array("status" => false, "message" => "Exception ".$e->getMessage()));
 	}
 
 });
@@ -201,7 +201,7 @@ $app->post('/seguimiento', function () use ($app, $db) {
 		}
 	
 	} catch (Exception $e) {
-		echo json_encode(array("status" => false, "message" => $e->getMessage()));
+		echo json_encode(array("status" => false, "message" => "Exception ".$e->getMessage()));
 	}
 	
 });
@@ -221,7 +221,7 @@ $app->put('/seguimiento/:id', function ($id) use ($app, $db) {
 		}
 	
 	} catch (Exception $e) {
-		echo json_encode(array("status" => false, "message" => $e->getMessage()));
+		echo json_encode(array("status" => false, "message" => "Exception ".$e->getMessage()));
 	}
 
 });
@@ -240,9 +240,26 @@ $app->delete('/seguimiento/:id', function ($id) use ($app, $db) {
 		}
 
 	} catch (Exception $e) {
-		echo json_encode(array("status" => false, "message" => $e->getMessage()));
+		echo json_encode(array("status" => false, "message" => "Exception ".$e->getMessage()));
 	}
 	
+});
+
+$app->get('/eliminarseguimiento/', function ($id) use ($app, $db) {
+
+	try {
+
+		$seguimiento = $db->seguimiento->delete();		
+		if($seguimiento != false){
+			echo json_encode(array("status" => true, "message" => "Se elimino", "seguimiento" => $seguimiento));			
+		}else{
+			echo json_encode(array("status" => false, "message" => "Se produjo un error al eliminar"));
+		}
+
+	} catch (Exception $e) {
+		echo json_encode(array("status" => false, "message" => "Exception ".$e->getMessage()));
+	}
+
 });
 
 function get_client_ip() {
