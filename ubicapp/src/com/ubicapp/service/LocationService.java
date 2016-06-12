@@ -80,20 +80,23 @@ public class LocationService extends Service implements LocationListener {
 		Log.d(TAG, "actualizarLocation");
 
 		if(location != null){
-			if(Util.validarMejorUbicacion(location, currentLocation)){
+			if(Util.validarUbicacion(location, currentLocation)){
 				
-				if(Util.validarTiempoUbicacion(location, currentLocation)){
-	
+				//if(Util.validarTiempoUbicacion(location, currentLocation)){
+				if(Util.isNetworkAvailable(this)){
 					Log.d(TAG, "getLatitude: " + String.valueOf(location.getLatitude()));
 					Log.d(TAG, "getLongitude: " + String.valueOf(location.getLongitude()));
 	
-					currentLocation = location;
+					this.currentLocation = location;
 	
 					this.enviarLocation(location);
 					
-				}else{
+				/*}else{
 					//this.enviarInformacion(currentLocation);
 					Log.d(TAG, "validarTiempoUbicacion: false");
+				}*/
+				}else{
+					Log.d(TAG, "isNetworkAvailable: false");
 				}
 				
 			}else{

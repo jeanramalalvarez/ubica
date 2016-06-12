@@ -18,8 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ubicapp.service.LocationService;
-
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Context;
@@ -28,10 +26,14 @@ import android.content.IntentFilter;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.BatteryManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+
+import com.ubicapp.service.LocationService;
 
 /***
  * 
@@ -153,6 +155,14 @@ public class Util {
 		return result;
 
 	}
+	
+	public static boolean isNetworkAvailable(Context context) {
+        NetworkInfo networkInfo = ((ConnectivityManager) context.getSystemService("connectivity")).getActiveNetworkInfo();
+        if (networkInfo == null || !networkInfo.isConnected()) {
+            return false;
+        }
+        return true;
+    }
 
 	public static String getIMEI(Context context) {
 		Log.d(TAG, "getIMEI");
@@ -196,24 +206,26 @@ public class Util {
             isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-            if (!isGPSEnabled && !isNetworkEnabled) {
-            } else {
+            //if (!isGPSEnabled && !isNetworkEnabled) {
+            //} else {
+            if (isGPSEnabled || isNetworkEnabled) {
                 if (isNetworkEnabled) {
-                	Log.d(TAG, "Network");
+                	Log.d(TAG, "Network " + isNetworkEnabled);
                     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, locationListener);
                     location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 }
                 if (isGPSEnabled) {
                     if (location == null) {
-                    	Log.d(TAG, "GPS Enabled");
+                    	Log.d(TAG, "GPS " + isGPSEnabled);
                         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, locationListener);
                         location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     }
                 }
+            }else {
+            	Log.d(TAG, "Network " + isNetworkEnabled);
+            	Log.d(TAG, "GPS " + isGPSEnabled);
             }
 
-            
-            
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
@@ -221,6 +233,50 @@ public class Util {
         return location;
     }
 	
+	public static boolean validarUbicacion(Location location, Location currentBestLocation) {
+		Log.d(TAG, "validarUbicacion");
+		
+	    if (currentBestLocation == null) {
+	    	// Una nueva ubicación es siempre mejor que ninguna
+	        return true;
+	    }
+
+	    // Compruebe si la solución de la nueva ubicación es más nueva o más antigua
+	    long diferenciaLocation = location.getTime() - currentBestLocation.getTime();
+	    boolean esNuevoLocation = diferenciaLocation >= Constantes.DIFERENCIA_LOCATION_MS;
+	    boolean esNuevo = diferenciaLocation > 0;
+
+	    // Si han pasado más de dos minutos desde la ubicación actual, utilice la nueva ubicación
+	    // Porque el usuario probablemente se ha movido
+	    if (esNuevoLocation) {
+	        return true;    
+	    }
+
+	    // Comprobar si la solución de la nueva ubicación es más o menos exacta
+	    /*
+	    int diferenciaAccuracy = (int) (location.getAccuracy() - currentBestLocation.getAccuracy());
+	    boolean esMasExacta = diferenciaAccuracy > 0;
+	    boolean esMenosExacta = diferenciaAccuracy < 0;
+	    boolean isSignificantlyLessAccurate = diferenciaAccuracy > 200;
+	    */
+
+	    // Comprobar si la vieja y nueva ubicación son del mismo proveedor
+	    //boolean esMismoProveedor = isSameProvider(location.getProvider(), currentBestLocation.getProvider());
+
+	    // Determine location quality using a combination of timeliness and accuracy
+	    // Determinar la calidad del lugar utilizando una combinación de la puntualidad y la exactitud
+	    /*
+	    if (esMenosExacta) {
+	        return true;
+	    } else if (esNuevo && !esMasExacta) {
+	        return true;
+	    } else if (esNuevo && !isSignificantlyLessAccurate && esMismoProveedor) {
+	        return true;
+	    }
+	    */
+	    return false;
+	}
+
 	public static boolean validarMejorUbicacion(Location location, Location currentBestLocation) {
 		Log.d(TAG, "validarMejorUbicacion");
 		
@@ -235,8 +291,8 @@ public class Util {
 	    long timeDelta = location.getTime() - currentBestLocation.getTime();
 	    //Date newDate = new Date(location.getTime());
 	    //Date currentDate = new Date(currentBestLocation.getTime());
-	    boolean isSignificantlyNewer = timeDelta > Constantes.MINU_VALI_MEJOR_UBI;
-	    boolean isSignificantlyOlder = timeDelta < -Constantes.MINU_VALI_MEJOR_UBI;
+	    boolean isSignificantlyNewer = timeDelta >= Constantes.DIFERENCIA_LOCATION_MS;
+	    boolean isSignificantlyOlder = timeDelta < Constantes.DIFERENCIA_LOCATION_MS;
 	    boolean isNewer = timeDelta > 0;
 
 	    // If it's been more than two minutes since the current location, use the new location
@@ -340,6 +396,19 @@ public class Util {
 		intent.setAction("com.service.LocationService");
 		context.startService(intent);
 		*/
+	}
+	
+	public static double distance(Location location, Location currentBestLocation){
+		
+		double lat = location.getLatitude();
+		double lon = location.getLongitude();
+		double clat = currentBestLocation.getLatitude();
+		double clon = currentBestLocation.getLongitude();
+		double temp1 = (double)((lat-clat)*(lat-clat));
+		double temp2 = (double)((lon-clon)*(lon-clon));
+		double distance = temp1 + temp2;
+	    
+	    return distance;
 	}
 
 }
