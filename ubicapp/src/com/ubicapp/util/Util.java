@@ -209,17 +209,17 @@ public class Util {
             //if (!isGPSEnabled && !isNetworkEnabled) {
             //} else {
             if (isGPSEnabled || isNetworkEnabled) {
+            	if (isGPSEnabled) {
+        			Log.d(TAG, "GPS " + isGPSEnabled);
+        			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, locationListener);
+        			location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            	}
                 if (isNetworkEnabled) {
-                	Log.d(TAG, "Network " + isNetworkEnabled);
-                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, locationListener);
-                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                }
-                if (isGPSEnabled) {
-                    if (location == null) {
-                    	Log.d(TAG, "GPS " + isGPSEnabled);
-                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, locationListener);
-                        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    }
+                	if (location == null) {
+	                	Log.d(TAG, "Network " + isNetworkEnabled);
+	                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, locationListener);
+	                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                	}
                 }
             }else {
             	Log.d(TAG, "Network " + isNetworkEnabled);
@@ -240,11 +240,15 @@ public class Util {
 	    	// Una nueva ubicación es siempre mejor que ninguna
 	        return true;
 	    }
+	    
+	    if(location.distanceTo(currentBestLocation) <= Constantes.GET_LOCATION_DISTANCIA_MIN){
+	    	return false;
+	    }
 
 	    // Compruebe si la solución de la nueva ubicación es más nueva o más antigua
 	    long diferenciaLocation = location.getTime() - currentBestLocation.getTime();
-	    boolean esNuevoLocation = diferenciaLocation >= Constantes.DIFERENCIA_LOCATION_MS;
-	    boolean esNuevo = diferenciaLocation > 0;
+	    boolean esNuevoLocation = diferenciaLocation >= Constantes.DIFERENCIA_LOCATION;
+	    //boolean esNuevo = diferenciaLocation > 0;
 
 	    // Si han pasado más de dos minutos desde la ubicación actual, utilice la nueva ubicación
 	    // Porque el usuario probablemente se ha movido
@@ -291,8 +295,8 @@ public class Util {
 	    long timeDelta = location.getTime() - currentBestLocation.getTime();
 	    //Date newDate = new Date(location.getTime());
 	    //Date currentDate = new Date(currentBestLocation.getTime());
-	    boolean isSignificantlyNewer = timeDelta >= Constantes.DIFERENCIA_LOCATION_MS;
-	    boolean isSignificantlyOlder = timeDelta < Constantes.DIFERENCIA_LOCATION_MS;
+	    boolean isSignificantlyNewer = timeDelta >= Constantes.DIFERENCIA_LOCATION;
+	    boolean isSignificantlyOlder = timeDelta < Constantes.DIFERENCIA_LOCATION;
 	    boolean isNewer = timeDelta > 0;
 
 	    // If it's been more than two minutes since the current location, use the new location

@@ -15,17 +15,15 @@ public interface Constantes {
 	//String URL_SERV_SEGUI = URL_SERV_BASE + "/seguimiento.php/seguimiento?XDEBUG_SESSION_START=ECLIPSE_DBGP&KEY=14651852772835";
 	String URL_SERV_SEGUI = URL_SERV_BASE + "/seguimiento.php/seguimiento";
 	
-	int DIFERENCIA_LOCATION_MS = 1000 * 50 * 1;
+	int DIFERENCIA_LOCATION = 1000 * 50 * 1;//Milisegundos
 	
 	int MINU_VALI_TIEMPO_UBI = 1000 * 60 * 60;
 	
-	//long PERIODO_ENVIO_MI = 1000 * 2;
-	
-	long PERIODO_ENVIO_MS = 1000 * 1 * 20;
+	long SEND_LOCATION_RETRASO = 1000 * 1 * 20;//Milisegundos
 
-    long DISTANCIA_MIN = 0; // 0 metros
+    long GET_LOCATION_DISTANCIA_MIN = 50; //Metros
 
-    long TIEMPO_MIN = 1000; // 1 segundos
+    long GET_LOCATION_TIEMPO_MIN = 1000 * 50 * 1;//Milisegundos
     
     //String FORMATO_FECHA = "yyyy/MM/dd HH:mm:ss";
     

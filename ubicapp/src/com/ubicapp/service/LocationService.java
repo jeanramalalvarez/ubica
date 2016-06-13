@@ -21,6 +21,7 @@ import com.ubicapp.util.Util;
  * @author Jean Ramal Alvarez
  * @since 09/06/2016
  */
+
 public class LocationService extends Service implements LocationListener {
 	
 	private static final String TAG = LocationService.class.getSimpleName();
@@ -72,7 +73,7 @@ public class LocationService extends Service implements LocationListener {
 	
 	public void procesarLocation(){
 		Log.d(TAG, "procesarLocation");
-		location = Util.getLocation(this, Constantes.DISTANCIA_MIN, Constantes.TIEMPO_MIN, this);
+		location = Util.getLocation(this, Constantes.GET_LOCATION_TIEMPO_MIN, Constantes.GET_LOCATION_DISTANCIA_MIN, this);
 		actualizarLocation(location, currentLocation);
 	}
 	
@@ -134,9 +135,9 @@ public class LocationService extends Service implements LocationListener {
 	    		long tiempoInicial = System.currentTimeMillis();
 	    		procesarLocation();
 	    		Log.d(TAG, "FIN DEL PROCESO tiempo transcurrido [" + (System.currentTimeMillis() - tiempoInicial) + " ms.]");
-	    		handler.postDelayed(this, Constantes.PERIODO_ENVIO_MS);
+	    		handler.postDelayed(this, Constantes.SEND_LOCATION_RETRASO);
 	    	}
-	    }, Constantes.PERIODO_ENVIO_MS);
+	    }, Constantes.SEND_LOCATION_RETRASO);
 	    
 	}
 
