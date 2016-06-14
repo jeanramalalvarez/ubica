@@ -29,7 +29,6 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.BatteryManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -72,11 +71,11 @@ public class Util {
 		
 		Map<String, String> mapa = new HashMap<String, String>();
 		mapa.put("URL", url);
-		sendPost2(mapa, parameter);
+		sendPost(mapa, parameter);
 	}
 
-	public static void sendPost2(Map<String, String> url, Map<String, String> parameter) {
-		Log.d(TAG, "sendPost2");
+	public static void sendPost(Map<String, String> url, Map<String, String> parameter) {
+		Log.d(TAG, "sendPost");
 
 		class SendPostReqAsyncTask extends AsyncTask<Map<String, String>, Void, String> {
 
@@ -172,20 +171,11 @@ public class Util {
 		return imei;
 	}
 
-	public static float getBatteryLevel(Context context) {
+	public static int getBatteryLevel(Context context) {
 		Log.d(TAG, "getBatteryLevel");
-		
-		float result = 0;
-		Intent batteryIntent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-		int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-		int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
-		// Error checking that probably isn't needed but I added just in case.
-		if (level == -1 || scale == -1) {
-			return 50.0f;
-		}
-		result = ((float) level / (float) scale) * 100.0f;
-		
+		Intent intent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        int result = intent.getIntExtra("level", 0);
 		return result;
 	}
 	
@@ -206,8 +196,6 @@ public class Util {
             isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-            //if (!isGPSEnabled && !isNetworkEnabled) {
-            //} else {
             if (isGPSEnabled || isNetworkEnabled) {
             	if (isGPSEnabled) {
         			Log.d(TAG, "GPS " + isGPSEnabled);
@@ -241,20 +229,19 @@ public class Util {
 	        return true;
 	    }
 	    
-	    if(location.distanceTo(currentBestLocation) <= Constantes.GET_LOCATION_DISTANCIA_MIN){
+	    if(location.distanceTo(currentBestLocation) <= Constantes.DISTANCIA_MINIMA){
 	    	return false;
 	    }
 
-	    // Compruebe si la solución de la nueva ubicación es más nueva o más antigua
-	    long diferenciaLocation = location.getTime() - currentBestLocation.getTime();
-	    boolean esNuevoLocation = diferenciaLocation >= Constantes.DIFERENCIA_LOCATION;
+	    // Compruebe si la solución de la nueva ubicación es nueva o antigua
+	    //long diferenciaLocation = location.getTime() - currentBestLocation.getTime();
 	    //boolean esNuevo = diferenciaLocation > 0;
 
 	    // Si han pasado más de dos minutos desde la ubicación actual, utilice la nueva ubicación
 	    // Porque el usuario probablemente se ha movido
-	    if (esNuevoLocation) {
+	    /*if (diferenciaLocation >= Constantes.DIFERENCIA_LOCATION) {
 	        return true;    
-	    }
+	    }*/
 
 	    // Comprobar si la solución de la nueva ubicación es más o menos exacta
 	    /*
@@ -281,80 +268,7 @@ public class Util {
 	    return false;
 	}
 
-	public static boolean validarMejorUbicacion(Location location, Location currentBestLocation) {
-		Log.d(TAG, "validarMejorUbicacion");
-		
-	    if (currentBestLocation == null) {
-	        // A new location is always better than no location
-	    	// Una nueva ubicación es siempre mejor que ninguna
-	        return true;
-	    }
-
-	    // Check whether the new location fix is newer or older
-	    // Compruebe si la solución de la nueva ubicación es más nueva o más antigua
-	    long timeDelta = location.getTime() - currentBestLocation.getTime();
-	    //Date newDate = new Date(location.getTime());
-	    //Date currentDate = new Date(currentBestLocation.getTime());
-	    boolean isSignificantlyNewer = timeDelta >= Constantes.DIFERENCIA_LOCATION;
-	    boolean isSignificantlyOlder = timeDelta < Constantes.DIFERENCIA_LOCATION;
-	    boolean isNewer = timeDelta > 0;
-
-	    // If it's been more than two minutes since the current location, use the new location
-	    // because the user has likely moved
-	    // Si han pasado más de dos minutos desde la ubicación actual, utilice la nueva ubicación
-	    // Porque el usuario probablemente se ha movido
-	    if (isSignificantlyNewer) {
-	        return true;
-	    // If the new location is more than two minutes older, it must be worse
-	    // Si la nueva ubicación es más de dos minutos mayor, debe ser peor    
-	    } else if (isSignificantlyOlder) {
-	        return false;
-	    }
-
-	    // Check whether the new location fix is more or less accurate
-	    // Comprobar si la solución de la nueva ubicación es más o menos exacta
-	    int accuracyDelta = (int) (location.getAccuracy() - currentBestLocation.getAccuracy());
-	    boolean isLessAccurate = accuracyDelta > 0;
-	    boolean isMoreAccurate = accuracyDelta < 0;
-	    boolean isSignificantlyLessAccurate = accuracyDelta > 200;
-
-	    // Check if the old and new location are from the same provider
-	    // Comprobar si la vieja y nueva ubicación son del mismo proveedor
-	    boolean isFromSameProvider = isSameProvider(location.getProvider(), currentBestLocation.getProvider());
-
-	    // Determine location quality using a combination of timeliness and accuracy
-	    // Determinar la calidad del lugar utilizando una combinación de la puntualidad y la exactitud
-	    if (isMoreAccurate) {
-	        return true;
-	    } else if (isNewer && !isLessAccurate) {
-	        return true;
-	    } else if (isNewer && !isSignificantlyLessAccurate && isFromSameProvider) {
-	        return true;
-	    }
-	    return false;
-	}
-	
-	public static boolean validarTiempoUbicacion(Location location, Location currentBestLocation) {
-		Log.d(TAG, "validarTiempoUbicacion");
-		
-	    if (currentBestLocation == null) {
-	        // A new location is always better than no location
-	    	// Una nueva ubicación es siempre mejor que ninguna
-	        return true;
-	    }
-
-	    // Check whether the new location fix is newer or older
-	    // Comprobar si la nueva ubicación es más nueva o más antigua
-	    long timeDelta = location.getTime() - currentBestLocation.getTime();
-	    
-	    if(timeDelta >= Constantes.MINU_VALI_TIEMPO_UBI){
-	    	return true;
-	    }
-	    
-	    return false;
-	}
-	
-	private static boolean isSameProvider(String provider1, String provider2) {
+	public static boolean isSameProvider(String provider1, String provider2) {
 		Log.d(TAG, "isSameProvider");
 		
 	    if (provider1 == null) {

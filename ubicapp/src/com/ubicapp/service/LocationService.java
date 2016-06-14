@@ -73,8 +73,8 @@ public class LocationService extends Service implements LocationListener {
 	
 	public void procesarLocation(){
 		Log.d(TAG, "procesarLocation");
-		location = Util.getLocation(this, Constantes.GET_LOCATION_TIEMPO_MIN, Constantes.GET_LOCATION_DISTANCIA_MIN, this);
-		actualizarLocation(location, currentLocation);
+		location = Util.getLocation(this, Constantes.TIEMPO_MINIMO, Constantes.DISTANCIA_MINIMA, this);
+		this.actualizarLocation(location, currentLocation);
 	}
 	
 	public void actualizarLocation(Location location, Location currentLocation){
@@ -82,8 +82,7 @@ public class LocationService extends Service implements LocationListener {
 
 		if(location != null){
 			if(Util.validarUbicacion(location, currentLocation)){
-				
-				//if(Util.validarTiempoUbicacion(location, currentLocation)){
+
 				if(Util.isNetworkAvailable(this)){
 					Log.d(TAG, "getLatitude: " + String.valueOf(location.getLatitude()));
 					Log.d(TAG, "getLongitude: " + String.valueOf(location.getLongitude()));
@@ -91,18 +90,13 @@ public class LocationService extends Service implements LocationListener {
 					this.currentLocation = location;
 	
 					this.enviarLocation(location);
-					
-				/*}else{
-					//this.enviarInformacion(currentLocation);
-					Log.d(TAG, "validarTiempoUbicacion: false");
-				}*/
+
 				}else{
 					Log.d(TAG, "isNetworkAvailable: false");
 				}
 				
 			}else{
-				//this.enviarInformacion(currentLocation);
-				Log.d(TAG, "validarTiempoUbicacion: false");
+				Log.d(TAG, "validarUbicacion: false");
 			}
 		}else{
 			Log.d(TAG, "location: " + location);
@@ -113,14 +107,14 @@ public class LocationService extends Service implements LocationListener {
 		Log.d(TAG, "enviarLocation");
 		
 		Map<String,String> parameter = new HashMap<String, String>();
-		parameter.put("deImei", "" + Util.getBatteryLevel(this));
+		parameter.put("deImei", Util.getIMEI(this));
 		parameter.put("nuLati", String.valueOf(location.getLatitude()));
 		parameter.put("nuLong", String.valueOf(location.getLongitude()));
-		parameter.put("deBate", Util.getIMEI(this));
+		parameter.put("deBate", "" + Util.getBatteryLevel(this));
 		parameter.put("deDire", "default");
 		parameter.put("feMovl", Util.getTime(null));
 		parameter.put("latlng", "");
-		Util.sendPost2(Constantes.URL_SERV_SEGUI, parameter);
+		Util.sendPost(Constantes.URL_SERV_SEGUI, parameter);
 	}
 	
 	public void ejecutarTareaProgramada(){
@@ -135,9 +129,9 @@ public class LocationService extends Service implements LocationListener {
 	    		long tiempoInicial = System.currentTimeMillis();
 	    		procesarLocation();
 	    		Log.d(TAG, "FIN DEL PROCESO tiempo transcurrido [" + (System.currentTimeMillis() - tiempoInicial) + " ms.]");
-	    		handler.postDelayed(this, Constantes.SEND_LOCATION_RETRASO);
+	    		handler.postDelayed(this, Constantes.RETRASO_ENVIO);
 	    	}
-	    }, Constantes.SEND_LOCATION_RETRASO);
+	    }, Constantes.RETRASO_ENVIO);
 	    
 	}
 
