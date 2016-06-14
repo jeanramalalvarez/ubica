@@ -265,7 +265,7 @@ public class Util {
 	        return true;
 	    }
 	    */
-	    return false;
+	    return true;
 	}
 
 	public static boolean isSameProvider(String provider1, String provider2) {

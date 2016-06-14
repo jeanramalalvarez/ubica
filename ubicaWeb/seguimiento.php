@@ -7,9 +7,9 @@ include "NotORM/NotORM.php";
 
 $app = new \Slim\Slim();
 
-$pdo = new PDO("mysql:host=localhost;port=3306;dbname=1162218", "1162218","P4ssw0rd1zz");
+//$pdo = new PDO("mysql:host=localhost;port=3306;dbname=1162218", "1162218","P4ssw0rd1zz");
 //$pdo = new PDO("mysql:host=localhost;port=3306;dbname=ubica", "root","admin");//local_casa
-//$pdo = new PDO("mysql:host=localhost;port=3306;dbname=ubica", "root","");//loca_trabajo
+$pdo = new PDO("mysql:host=localhost;port=3306;dbname=ubica", "root","");//loca_trabajo
 //$pdo = new PDO("mysql:host=localhost;port=3306;dbname=a7818608_ubicap", "a7818608_ubicap","a7818608_ubicap");//ubicaapp.comlu.com
 //$pdo = new PDO("mysql:host=db4free.net;port=3306;dbname=ubica", "ubica","P4ssw0rd1zz"); //db4free
 $db = new NotORM($pdo);
@@ -245,7 +245,7 @@ $app->delete('/seguimiento/:id', function ($id) use ($app, $db) {
 	
 });
 
-$app->get('/eliminarseguimiento/', function ($id) use ($app, $db) {
+$app->get('/eliminarseguimiento/', function () use ($app, $db) {
 
 	try {
 
