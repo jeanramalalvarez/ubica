@@ -88,7 +88,7 @@ public class LocationService extends Service implements LocationListener {
 					Log.d(TAG, "getLongitude: " + String.valueOf(location.getLongitude()));
 	
 					this.currentLocation = location;
-	
+					
 					this.enviarLocation(location);
 
 				}else{
@@ -114,7 +114,10 @@ public class LocationService extends Service implements LocationListener {
 		parameter.put("deDire", "default");
 		parameter.put("feMovl", Util.getTime(null));
 		parameter.put("latlng", "");
-		Util.sendPost(Constantes.URL_SERV_SEGUI, parameter);
+		String result = Util.sendPost(Constantes.URL_SERV_SEGUI, parameter);
+		if(result == null || result.contains("\"status\":false")){
+			this.currentLocation = null;
+		}
 	}
 	
 	public void ejecutarTareaProgramada(){

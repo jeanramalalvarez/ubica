@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -97,7 +98,7 @@ public class Util {
 		Log.d(TAG, "sendPost");
 		
 		StringBuilder params = new StringBuilder("");
-		String result = "";
+		String result = null;
 
 		try {
 
@@ -106,11 +107,12 @@ public class Util {
 				params.append(URLEncoder.encode(parameter.get(s), "UTF-8"));
 			}
 
-			// Log.i("Util", "parametros: " + params.toString());
-
 			String url = _url;
 			URL obj = new URL(_url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			
+			Log.d(TAG, "\nEnviando peticion 'POST' a la URL : " + url);
+			Log.d(TAG, "Parametros POST: " + params);
 
 			con.setRequestMethod("POST");
 			// con.setRequestProperty("User-Agent", USER_AGENT);
@@ -122,9 +124,6 @@ public class Util {
 			outputStreamWriter.flush();
 
 			int responseCode = con.getResponseCode();
-			Log.d(TAG, "\nEnviando peticion 'POST' a la URL : " + url);
-			Log.d(TAG, "Parametros POST: " + params);
-			Log.d(TAG, "Codigo de respuesta: " + responseCode);
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 			String inputLine;
@@ -137,18 +136,21 @@ public class Util {
 
 			result = response.toString();
 
+			Log.d(TAG, "Codigo de respuesta: " + responseCode);
 			Log.d(TAG, "Resultado POST: " + result);
 
 		} catch (UnsupportedEncodingException e) {
-			Log.e(TAG, "" + e.getMessage());
+			Log.e(TAG, "[UnsupportedEncodingException]" + e.getMessage());
 		} catch (MalformedURLException e) {
-			Log.e(TAG, "" + e.getMessage());
+			Log.e(TAG, "[MalformedURLException]" + e.getMessage());
 		} catch (ProtocolException e) {
-			Log.e(TAG, "" + e.getMessage());
+			Log.e(TAG, "[ProtocolException]" + e.getMessage());
+		} catch (UnknownHostException e) {
+			Log.e(TAG, "[UnknownHostException]" + e.getMessage());
 		} catch (IOException e) {
-			Log.e(TAG, "" + e.getMessage());
+			Log.e(TAG, "[IOException]" + e.getMessage());
 		} catch (Exception e) {
-			Log.e(TAG, "" + e.getMessage());
+			Log.e(TAG, "[Exception]" + e.getMessage());
 		}
 
 		return result;

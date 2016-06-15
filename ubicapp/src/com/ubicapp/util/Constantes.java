@@ -9,8 +9,8 @@ package com.ubicapp.util;
 public interface Constantes {
 	
 	//String URL_SERV_BASE = "http://192.168.0.23:8082/ubicaWeb";
-	String URL_SERV_BASE = "http://192.168.13.183:8082/ubicaWeb";
-	//String URL_SERV_BASE = "http://ubicapp.6te.net";
+	//String URL_SERV_BASE = "http://192.168.13.183:8082/ubicaWeb";
+	String URL_SERV_BASE = "http://ubicapp.6te.net";
 	
 	//String URL_SERV_SEGUI = URL_SERV_BASE + "/seguimiento.php/seguimiento?XDEBUG_SESSION_START=ECLIPSE_DBGP&KEY=14651852772835";
 	String URL_SERV_SEGUI = URL_SERV_BASE + "/seguimiento.php/seguimiento";
